@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import Sidebar from '@/components/Sidebar';
@@ -5,6 +6,11 @@ import ChatHeader from '@/components/ChatHeader';
 import ChatInput from '@/components/ChatInput';
 import ActionButtons from '@/components/ActionButtons';
 import MessageList from '@/components/MessageList';
+import UserButton from '@/components/UserButton';
+import SettingsMenu from '@/components/SettingsMenu';
+import SettingsWindow from '@/components/SettingsWindow';
+import MyGPTsWindow from '@/components/MyGPTsWindow';
+import CustomizeWindow from '@/components/CustomizeWindow';
 
 type Message = {
   role: 'user' | 'assistant';
@@ -16,6 +22,12 @@ const Index = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+
+  // State for UI components
+  const [isSettingsMenuOpen, setIsSettingsMenuOpen] = useState(false);
+  const [isSettingsWindowOpen, setIsSettingsWindowOpen] = useState(false);
+  const [isMyGPTsWindowOpen, setIsMyGPTsWindowOpen] = useState(false);
+  const [isCustomizeWindowOpen, setIsCustomizeWindowOpen] = useState(false);
 
   const handleSendMessage = async (content: string) => {
     if (!content.trim()) {
@@ -57,6 +69,22 @@ const Index = () => {
     }
   };
 
+  const handleToggleSettingsMenu = () => {
+    setIsSettingsMenuOpen(!isSettingsMenuOpen);
+  };
+
+  const handleOpenSettings = () => {
+    setIsSettingsWindowOpen(true);
+  };
+
+  const handleOpenMyGPTs = () => {
+    setIsMyGPTsWindowOpen(true);
+  };
+
+  const handleOpenCustomize = () => {
+    setIsCustomizeWindowOpen(true);
+  };
+
   return (
     <div className="flex h-screen">
       <Sidebar 
@@ -66,7 +94,12 @@ const Index = () => {
       />
       
       <main className={`flex-1 transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-0'}`}>
-        <ChatHeader isSidebarOpen={isSidebarOpen} />
+        <div className="fixed top-0 z-30 w-full border-b border-white/20 bg-chatgpt-main/95 backdrop-blur">
+          <div className="flex h-[60px] items-center justify-between px-4">
+            <ChatHeader isSidebarOpen={isSidebarOpen} />
+            <UserButton onClick={handleToggleSettingsMenu} />
+          </div>
+        </div>
         
         <div className={`flex h-full flex-col ${messages.length === 0 ? 'items-center justify-center' : 'justify-between'} pt-[60px] pb-4`}>
           {messages.length === 0 ? (
@@ -90,6 +123,33 @@ const Index = () => {
           )}
         </div>
       </main>
+
+      {/* Settings Menu */}
+      <SettingsMenu 
+        isOpen={isSettingsMenuOpen}
+        onClose={() => setIsSettingsMenuOpen(false)}
+        onOpenSettings={handleOpenSettings}
+        onOpenMyGPTs={handleOpenMyGPTs}
+        onOpenCustomize={handleOpenCustomize}
+      />
+
+      {/* Settings Window */}
+      <SettingsWindow 
+        isOpen={isSettingsWindowOpen}
+        onClose={() => setIsSettingsWindowOpen(false)}
+      />
+
+      {/* My GPTs Window */}
+      <MyGPTsWindow 
+        isOpen={isMyGPTsWindowOpen}
+        onClose={() => setIsMyGPTsWindowOpen(false)}
+      />
+
+      {/* Customize Window */}
+      <CustomizeWindow 
+        isOpen={isCustomizeWindowOpen}
+        onClose={() => setIsCustomizeWindowOpen(false)}
+      />
     </div>
   );
 };
