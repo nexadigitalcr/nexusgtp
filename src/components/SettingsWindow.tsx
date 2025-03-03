@@ -20,10 +20,10 @@ const SettingsWindow = ({ isOpen, onClose, initialTab = 'general' }: SettingsWin
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 animate-in fade-in-50" onClick={onClose}>
       <div 
-        className="w-full max-w-2xl max-h-[85vh] bg-gray-800 rounded-lg shadow-lg overflow-hidden animate-in fade-in-50 zoom-in-90"
+        className="w-full max-w-2xl max-h-[85vh] bg-chatgpt-main rounded-lg shadow-lg overflow-hidden animate-in fade-in-50 zoom-in-90"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between p-4 border-b border-gray-700">
+        <div className="flex items-center justify-between p-4 border-b border-chatgpt-border">
           <h2 className="text-xl font-semibold text-white">Configuración</h2>
           <button onClick={onClose} className="text-gray-400 hover:text-white">
             <X className="h-5 w-5" />
@@ -32,7 +32,7 @@ const SettingsWindow = ({ isOpen, onClose, initialTab = 'general' }: SettingsWin
 
         <div className="flex h-[calc(85vh-64px)]">
           {/* Sidebar */}
-          <div className="w-48 bg-gray-900 p-2 overflow-y-auto">
+          <div className="w-48 bg-chatgpt-sidebar p-2 overflow-y-auto">
             <TabButton 
               active={activeTab === 'general'} 
               icon="Settings" 
@@ -102,7 +102,7 @@ const TabButton = ({ active, icon, label, onClick }: TabButtonProps) => {
     <button
       className={cn(
         "flex w-full items-center rounded-md px-3 py-2 text-sm text-white mb-1",
-        active ? "bg-gray-700" : "hover:bg-gray-800"
+        active ? "bg-chatgpt-hover" : "hover:bg-chatgpt-hover"
       )}
       onClick={onClick}
     >
@@ -124,10 +124,10 @@ const GeneralSettings = () => {
         <div className="flex justify-between items-center">
           <span>Sistema</span>
           <Select defaultValue="system">
-            <SelectTrigger className="w-36 bg-gray-700 border-gray-600">
+            <SelectTrigger className="w-36 bg-chatgpt-secondary border-chatgpt-border">
               <SelectValue placeholder="Sistema" />
             </SelectTrigger>
-            <SelectContent className="bg-gray-800 border-gray-700 text-white">
+            <SelectContent className="bg-chatgpt-secondary border-chatgpt-border text-white">
               <SelectItem value="system">Sistema</SelectItem>
               <SelectItem value="dark">Oscuro</SelectItem>
               <SelectItem value="light">Claro</SelectItem>
@@ -152,10 +152,10 @@ const GeneralSettings = () => {
         <div className="flex justify-between items-center">
           <span>Automático</span>
           <Select defaultValue="auto">
-            <SelectTrigger className="w-36 bg-gray-700 border-gray-600">
+            <SelectTrigger className="w-36 bg-chatgpt-secondary border-chatgpt-border">
               <SelectValue placeholder="Automático" />
             </SelectTrigger>
-            <SelectContent className="bg-gray-800 border-gray-700 text-white">
+            <SelectContent className="bg-chatgpt-secondary border-chatgpt-border text-white">
               <SelectItem value="auto">Automático</SelectItem>
               <SelectItem value="es">Español</SelectItem>
               <SelectItem value="en">English</SelectItem>
@@ -216,7 +216,7 @@ const DataSettings = () => {
           </div>
         </div>
         
-        <div className="mt-8 pt-4 border-t border-gray-700">
+        <div className="mt-8 pt-4 border-t border-chatgpt-border">
           <Button variant="outline" className="mr-2">Exportar datos</Button>
           <Button variant="destructive">Eliminar todos los datos</Button>
         </div>

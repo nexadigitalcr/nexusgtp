@@ -52,10 +52,10 @@ const MyGPTsWindow = ({ isOpen, onClose }: MyGPTsWindowProps) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 animate-in fade-in-50" onClick={onClose}>
       <div 
-        className="w-full max-w-2xl max-h-[85vh] bg-gray-800 rounded-lg shadow-lg overflow-hidden animate-in fade-in-50 zoom-in-90"
+        className="w-full max-w-2xl max-h-[85vh] bg-chatgpt-main rounded-lg shadow-lg overflow-hidden animate-in fade-in-50 zoom-in-90"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between p-4 border-b border-gray-700">
+        <div className="flex items-center justify-between p-4 border-b border-chatgpt-border">
           <h2 className="text-xl font-semibold text-white">Mis GPTs</h2>
           <button onClick={onClose} className="text-gray-400 hover:text-white">
             <X className="h-5 w-5" />
@@ -67,7 +67,7 @@ const MyGPTsWindow = ({ isOpen, onClose }: MyGPTsWindowProps) => {
             <h3 className="text-white text-lg mb-4">Modelos GPT Conectados</h3>
             <div className="space-y-4">
               {gptModels.map((model) => (
-                <div key={model.id} className="bg-gray-900 p-4 rounded-lg">
+                <div key={model.id} className="bg-chatgpt-secondary p-4 rounded-lg">
                   <div className="flex justify-between">
                     <div>
                       <h4 className="text-white font-medium">{model.name}</h4>
@@ -97,13 +97,13 @@ const MyGPTsWindow = ({ isOpen, onClose }: MyGPTsWindowProps) => {
           </div>
 
           {isAddingModel ? (
-            <div className="bg-gray-900 p-4 rounded-lg mb-4">
+            <div className="bg-chatgpt-secondary p-4 rounded-lg mb-4">
               <h4 className="text-white font-medium mb-4">Agregar nuevo modelo GPT</h4>
               <div className="space-y-4">
                 <div>
                   <label className="text-gray-400 text-sm mb-1 block">Nombre del modelo</label>
                   <Input 
-                    className="bg-gray-800 border-gray-700 text-white"
+                    className="bg-chatgpt-main border-chatgpt-border text-white"
                     placeholder="ej. GPT-4"
                     value={newModel.name}
                     onChange={(e) => setNewModel({...newModel, name: e.target.value})}
@@ -112,7 +112,7 @@ const MyGPTsWindow = ({ isOpen, onClose }: MyGPTsWindowProps) => {
                 <div>
                   <label className="text-gray-400 text-sm mb-1 block">Descripción (opcional)</label>
                   <Input 
-                    className="bg-gray-800 border-gray-700 text-white"
+                    className="bg-chatgpt-main border-chatgpt-border text-white"
                     placeholder="Descripción corta del modelo"
                     value={newModel.description}
                     onChange={(e) => setNewModel({...newModel, description: e.target.value})}
@@ -121,7 +121,7 @@ const MyGPTsWindow = ({ isOpen, onClose }: MyGPTsWindowProps) => {
                 <div>
                   <label className="text-gray-400 text-sm mb-1 block">API Key</label>
                   <Input 
-                    className="bg-gray-800 border-gray-700 text-white"
+                    className="bg-chatgpt-main border-chatgpt-border text-white"
                     placeholder="sk-..."
                     type="password"
                     value={newModel.apiKey}
@@ -149,7 +149,7 @@ const MyGPTsWindow = ({ isOpen, onClose }: MyGPTsWindowProps) => {
             </Button>
           )}
 
-          <div className="mt-6 pt-4 border-t border-gray-700">
+          <div className="mt-6 pt-4 border-t border-chatgpt-border">
             <div className="flex items-center justify-between text-blue-400 hover:text-blue-300 cursor-pointer">
               <span>Ver la documentación de la API de OpenAI</span>
               <ChevronRight className="h-4 w-4" />

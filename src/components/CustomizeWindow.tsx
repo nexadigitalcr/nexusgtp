@@ -18,10 +18,10 @@ const CustomizeWindow = ({ isOpen, onClose }: CustomizeWindowProps) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 animate-in fade-in-50" onClick={onClose}>
       <div 
-        className="w-full max-w-2xl max-h-[85vh] bg-gray-800 rounded-lg shadow-lg overflow-hidden animate-in fade-in-50 zoom-in-90"
+        className="w-full max-w-2xl max-h-[85vh] bg-chatgpt-main rounded-lg shadow-lg overflow-hidden animate-in fade-in-50 zoom-in-90"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between p-4 border-b border-gray-700">
+        <div className="flex items-center justify-between p-4 border-b border-chatgpt-border">
           <h2 className="text-xl font-semibold text-white">Personalizar ChatGPT</h2>
           <button onClick={onClose} className="text-gray-400 hover:text-white">
             <X className="h-5 w-5" />
@@ -66,7 +66,7 @@ const CustomizeWindow = ({ isOpen, onClose }: CustomizeWindowProps) => {
                     min="1" 
                     max="3" 
                     value="2" 
-                    className="w-full h-2 rounded-lg appearance-none bg-gray-700 outline-none" 
+                    className="w-full h-2 rounded-lg appearance-none bg-chatgpt-secondary outline-none" 
                   />
                   <span className="text-lg">A</span>
                 </div>
@@ -90,10 +90,10 @@ const CustomizeWindow = ({ isOpen, onClose }: CustomizeWindowProps) => {
               <div>
                 <h3 className="text-lg mb-4">Modelo predeterminado</h3>
                 <Select defaultValue="gpt4">
-                  <SelectTrigger className="w-full bg-gray-700 border-gray-600">
+                  <SelectTrigger className="w-full bg-chatgpt-secondary border-chatgpt-border">
                     <SelectValue placeholder="Seleccionar modelo" />
                   </SelectTrigger>
-                  <SelectContent className="bg-gray-800 border-gray-700 text-white">
+                  <SelectContent className="bg-chatgpt-secondary border-chatgpt-border text-white">
                     <SelectItem value="gpt4">GPT-4</SelectItem>
                     <SelectItem value="gpt35">GPT-3.5</SelectItem>
                   </SelectContent>
@@ -127,7 +127,7 @@ const CustomizeWindow = ({ isOpen, onClose }: CustomizeWindowProps) => {
                     min="1" 
                     max="5" 
                     value="3" 
-                    className="w-full h-2 rounded-lg appearance-none bg-gray-700 outline-none" 
+                    className="w-full h-2 rounded-lg appearance-none bg-chatgpt-secondary outline-none" 
                   />
                   <span className="text-sm">Casual</span>
                 </div>
@@ -138,7 +138,7 @@ const CustomizeWindow = ({ isOpen, onClose }: CustomizeWindowProps) => {
                     min="1" 
                     max="5" 
                     value="3" 
-                    className="w-full h-2 rounded-lg appearance-none bg-gray-700 outline-none" 
+                    className="w-full h-2 rounded-lg appearance-none bg-chatgpt-secondary outline-none" 
                   />
                   <span className="text-sm">Detallado</span>
                 </div>
@@ -146,7 +146,7 @@ const CustomizeWindow = ({ isOpen, onClose }: CustomizeWindowProps) => {
             </div>
           )}
 
-          <div className="mt-8 pt-4 border-t border-gray-700 flex justify-end">
+          <div className="mt-8 pt-4 border-t border-chatgpt-border flex justify-end">
             <Button onClick={onClose}>Guardar cambios</Button>
           </div>
         </div>
@@ -164,7 +164,7 @@ const ThemeOption = ({ label, isSelected }: ThemeOptionProps) => {
   return (
     <div className={`
       p-3 rounded-lg border-2 flex items-center justify-center
-      ${isSelected ? 'border-blue-500 bg-gray-700' : 'border-gray-700 bg-gray-800 hover:bg-gray-700'}
+      ${isSelected ? 'border-blue-500 bg-chatgpt-hover' : 'border-chatgpt-border bg-chatgpt-secondary hover:bg-chatgpt-hover'}
       cursor-pointer
     `}>
       {label}
@@ -181,7 +181,7 @@ const ColorOption = ({ color, isSelected }: ColorOptionProps) => {
   return (
     <div className={`
       h-10 rounded-full ${color} flex items-center justify-center
-      ${isSelected ? 'ring-2 ring-white ring-offset-2 ring-offset-gray-800' : ''}
+      ${isSelected ? 'ring-2 ring-white ring-offset-2 ring-offset-chatgpt-main' : ''}
       cursor-pointer
     `}>
       {isSelected && <Smile className="h-5 w-5 text-white" />}
