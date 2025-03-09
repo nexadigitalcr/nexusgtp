@@ -67,17 +67,32 @@ const ChatHeader = ({
                   <ChevronDown className="h-4 w-4 text-gray-400 hover:text-white transition-colors" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuItem onClick={handleNewChat} className="flex items-center gap-2">
+              <DropdownMenuContent 
+                align="end" 
+                className="w-60 bg-chatgpt-secondary/95 backdrop-blur-sm border-chatgpt-border rounded-md shadow-lg"
+              >
+                <DropdownMenuItem 
+                  onClick={handleNewChat} 
+                  className="flex items-center gap-2 px-3 py-2.5 text-white hover:bg-white/10 rounded-sm mx-1 my-0.5 cursor-pointer transition-colors"
+                >
                   <MessageSquarePlus className="h-4 w-4 text-gray-300" />
                   <span>Nuevo Chat</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setIsAboutModalOpen(true)} className="flex items-center gap-2">
+                
+                <DropdownMenuItem 
+                  onClick={() => setIsAboutModalOpen(true)} 
+                  className="flex items-center gap-2 px-3 py-2.5 text-white hover:bg-white/10 rounded-sm mx-1 my-0.5 cursor-pointer transition-colors"
+                >
                   <Info className="h-4 w-4 text-gray-300" />
                   <span>Acerca de</span>
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleTogglePin} className="flex items-center gap-2">
+                
+                <DropdownMenuSeparator className="bg-gray-700 my-1 mx-1" />
+                
+                <DropdownMenuItem 
+                  onClick={handleTogglePin} 
+                  className="flex items-center gap-2 px-3 py-2.5 text-white hover:bg-white/10 rounded-sm mx-1 my-0.5 cursor-pointer transition-colors"
+                >
                   {currentAssistant.isPinned ? (
                     <>
                       <PinOff className="h-4 w-4 text-gray-300" />
@@ -90,7 +105,10 @@ const ChatHeader = ({
                     </>
                   )}
                 </DropdownMenuItem>
-                <DropdownMenuItem className="flex items-center gap-2">
+                
+                <DropdownMenuItem 
+                  className="flex items-center gap-2 px-3 py-2.5 text-white hover:bg-white/10 rounded-sm mx-1 my-0.5 cursor-pointer transition-colors"
+                >
                   <MessageSquare className="h-4 w-4 text-gray-300" />
                   <span>Enviar Comentarios</span>
                 </DropdownMenuItem>
