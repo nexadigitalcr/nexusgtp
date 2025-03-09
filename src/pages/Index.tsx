@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
@@ -32,12 +33,27 @@ const Index = () => {
   const [isSettingsWindowOpen, setIsSettingsWindowOpen] = useState(false);
   const [isMyGPTsWindowOpen, setIsMyGPTsWindowOpen] = useState(false);
   const [isCustomizeWindowOpen, setIsCustomizeWindowOpen] = useState(false);
+  const [pinnedAssistants, setPinnedAssistants] = useState<string[]>([]);
+
+  useEffect(() => {
+    // Try to load pinned assistants from localStorage
+    const savedPinnedAssistants = localStorage.getItem('pinnedAssistants');
+    if (savedPinnedAssistants) {
+      try {
+        setPinnedAssistants(JSON.parse(savedPinnedAssistants));
+      } catch (e) {
+        console.error('Error loading pinned assistants:', e);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (assistantId) {
       const foundAssistant = assistants.find(a => a.id === assistantId);
       if (foundAssistant) {
-        setCurrentAssistant(foundAssistant);
+        // Apply the isPinned status from our state
+        const isPinned = pinnedAssistants.includes(foundAssistant.id);
+        setCurrentAssistant({ ...foundAssistant, isPinned });
         
         setMessages([{
           role: 'assistant',
@@ -50,7 +66,7 @@ const Index = () => {
         });
       }
     }
-  }, [assistantId, toast]);
+  }, [assistantId, toast, pinnedAssistants]);
 
   const handleSendMessage = async (content: string) => {
     if (!content.trim()) {
@@ -93,6 +109,52 @@ const Index = () => {
     }
   };
 
+  const handleNewChat = () => {
+    // Start a new chat with the current assistant
+    setMessages([{
+      role: 'assistant',
+      content: `Hola, soy ${currentAssistant?.name}. ${currentAssistant?.description} ¿En qué puedo ayudarte hoy?`
+    }]);
+    
+    toast({
+      title: "Nuevo chat iniciado",
+      description: `Empezando una nueva conversación con ${currentAssistant?.name}.`,
+    });
+  };
+
+  const handleTogglePin = (assistantId: string) => {
+    // Update pinned assistants list
+    let newPinnedAssistants: string[];
+    
+    if (pinnedAssistants.includes(assistantId)) {
+      // Remove from pinned
+      newPinnedAssistants = pinnedAssistants.filter(id => id !== assistantId);
+      toast({
+        title: "Asistente desanclado",
+        description: "El asistente ha sido desanclado del sidebar.",
+      });
+    } else {
+      // Add to pinned
+      newPinnedAssistants = [...pinnedAssistants, assistantId];
+      toast({
+        title: "Asistente anclado",
+        description: "El asistente ha sido anclado al sidebar para fácil acceso.",
+      });
+    }
+    
+    // Update state and localStorage
+    setPinnedAssistants(newPinnedAssistants);
+    localStorage.setItem('pinnedAssistants', JSON.stringify(newPinnedAssistants));
+    
+    // Update current assistant if that's the one we're toggling
+    if (currentAssistant && currentAssistant.id === assistantId) {
+      setCurrentAssistant({
+        ...currentAssistant,
+        isPinned: !pinnedAssistants.includes(assistantId)
+      });
+    }
+  };
+
   const handleToggleSettingsMenu = () => {
     setIsSettingsMenuOpen(!isSettingsMenuOpen);
   };
@@ -116,6 +178,7 @@ const Index = () => {
         onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
         onApiKeyChange={() => {}} // Empty function since we don't need API key anymore
         currentAssistantId={currentAssistant?.id}
+        pinnedAssistantIds={pinnedAssistants}
       />
       
       <main className={`flex-1 transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-0'}`}>
@@ -124,6 +187,8 @@ const Index = () => {
             <ChatHeader 
               isSidebarOpen={isSidebarOpen} 
               currentAssistant={currentAssistant}
+              onNewChat={handleNewChat}
+              onTogglePin={handleTogglePin}
             />
             <UserButton onClick={handleToggleSettingsMenu} />
           </div>

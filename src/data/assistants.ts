@@ -8,6 +8,11 @@ export interface Assistant {
   author?: string;
   visibility?: "public" | "private";
   chat_count?: number;
+  isPinned?: boolean;
+  ratings?: {
+    average: number;
+    count: number;
+  };
 }
 
 export const assistants: Assistant[] = [
@@ -16,35 +21,45 @@ export const assistants: Assistant[] = [
     name: "Nexus AI",
     description: "El primer Chat autónomo de Costa Rica",
     avatar: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?auto=format&fit=crop&w=100&h=100",
-    category: "Featured"
+    category: "Featured",
+    author: "Nexa Digital",
+    ratings: { average: 4.7, count: 128 }
   },
   {
     id: "axel-eleven",
     name: "Axel Eleven Labs Expert",
     description: "Asistente especializado en soporte técnico y creación de scripts de audio personalizados.",
     avatar: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=100&h=100",
-    category: "Trending"
+    category: "Trending",
+    author: "Eleven Labs",
+    ratings: { average: 4.2, count: 47 }
   },
   {
     id: "amara-divi",
     name: "Amara Divi Expert",
     description: "Experto en Divi que ofrece soporte detallado paso a paso.",
     avatar: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=100&h=100",
-    category: "Specialized"
+    category: "Specialized",
+    author: "Elegant Themes",
+    ratings: { average: 4.5, count: 32 }
   },
   {
     id: "salomon-lawyer",
     name: "Salomón Tico-Lawyer",
     description: "Asesor legal especializado en leyes de Costa Rica.",
     avatar: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=100&h=100",
-    category: "Specialized"
+    category: "Specialized",
+    author: "Legal Nexus",
+    ratings: { average: 4.8, count: 74 }
   },
   {
     id: "joe-biodiversity",
     name: "Joe, The Biodiversity Partner",
     description: "Guía naturalista multilingüe para explorar la biodiversidad de Costa Rica.",
     avatar: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=100&h=100",
-    category: "Trending"
+    category: "Trending",
+    author: "EcoTica",
+    ratings: { average: 4.9, count: 91 }
   },
   // Adding new assistants
   {
@@ -54,7 +69,9 @@ export const assistants: Assistant[] = [
     avatar: "https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?auto=format&fit=crop&w=100&h=100",
     category: "Specialized",
     visibility: "public",
-    chat_count: 0
+    chat_count: 0,
+    author: "Synthflow Labs",
+    ratings: { average: 0, count: 0 }
   },
   {
     id: "theo-huggingface-002",
@@ -63,7 +80,9 @@ export const assistants: Assistant[] = [
     avatar: "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&w=100&h=100",
     category: "Trending",
     visibility: "public",
-    chat_count: 0
+    chat_count: 0,
+    author: "Hugging Face",
+    ratings: { average: 0, count: 0 }
   },
   {
     id: "eliliot-glif-003",
@@ -72,7 +91,9 @@ export const assistants: Assistant[] = [
     avatar: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=100&h=100",
     category: "Specialized",
     visibility: "public",
-    chat_count: 1
+    chat_count: 1,
+    author: "Glif Team",
+    ratings: { average: 4.0, count: 1 }
   },
   {
     id: "bolt-new-004",
@@ -81,7 +102,9 @@ export const assistants: Assistant[] = [
     avatar: "https://images.unsplash.com/photo-1550645612-83f5d594b671?auto=format&fit=crop&w=100&h=100",
     category: "Featured",
     visibility: "public",
-    chat_count: 25
+    chat_count: 25,
+    author: "Bolt Team",
+    ratings: { average: 4.6, count: 18 }
   },
   {
     id: "professor-sloth-005",
@@ -90,7 +113,9 @@ export const assistants: Assistant[] = [
     avatar: "https://images.unsplash.com/photo-1484557985045-edf25e08da73?auto=format&fit=crop&w=100&h=100",
     category: "Featured",
     visibility: "private",
-    chat_count: 0
+    chat_count: 0,
+    author: "Tourism CR",
+    ratings: { average: 0, count: 0 }
   }
 ];
 

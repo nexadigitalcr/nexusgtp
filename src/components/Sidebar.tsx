@@ -1,5 +1,5 @@
 
-import { Menu, Globe, ChevronDown, Key } from "lucide-react";
+import { Menu, Globe, ChevronDown, Key, Pin } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
@@ -11,9 +11,10 @@ interface SidebarProps {
   onToggle: () => void;
   onApiKeyChange: (apiKey: string) => void;
   currentAssistantId?: string;
+  pinnedAssistantIds?: string[];
 }
 
-const Sidebar = ({ isOpen, onToggle, onApiKeyChange, currentAssistantId }: SidebarProps) => {
+const Sidebar = ({ isOpen, onToggle, onApiKeyChange, currentAssistantId, pinnedAssistantIds = [] }: SidebarProps) => {
   const [apiKey, setApiKey] = useState("");
   const timeframes = [
     { title: "Yesterday", items: ["Using Tailwind CSS Guide"] },
@@ -48,6 +49,9 @@ const Sidebar = ({ isOpen, onToggle, onApiKeyChange, currentAssistantId }: Sideb
   const popularAssistants = assistants.filter(a => a.chat_count !== undefined && a.chat_count > 0)
     .sort((a, b) => (b.chat_count || 0) - (a.chat_count || 0))
     .slice(0, 5);
+
+  // Get pinned assistants
+  const pinnedAssistants = assistants.filter(a => pinnedAssistantIds.includes(a.id));
 
   return (
     <div className={cn(
@@ -107,6 +111,31 @@ const Sidebar = ({ isOpen, onToggle, onApiKeyChange, currentAssistantId }: Sideb
                 <span className="text-sm">Explorar Asistentes</span>
               </Link>
             </div>
+
+            {/* Pinned Assistants Section */}
+            {isOpen && pinnedAssistants.length > 0 && (
+              <div className="mt-4 flex flex-col gap-2">
+                <div className="px-3 py-2 text-xs text-gray-500 flex items-center gap-2">
+                  <Pin className="h-3 w-3" />
+                  <span>Asistentes Anclados</span>
+                </div>
+                {pinnedAssistants.map((assistant) => (
+                  <Link
+                    key={assistant.id}
+                    to={`/?assistant=${assistant.id}`}
+                    className={cn(
+                      "flex items-center gap-2 px-3 py-2 hover:bg-token-sidebar-surface-secondary rounded-md cursor-pointer",
+                      currentAssistantId === assistant.id && "bg-chatgpt-hover"
+                    )}
+                  >
+                    <div className="w-6 h-6 rounded-full bg-gray-700 overflow-hidden">
+                      <img src={assistant.avatar} alt={assistant.name} className="w-full h-full object-cover" />
+                    </div>
+                    <span className="text-sm truncate">{assistant.name}</span>
+                  </Link>
+                ))}
+              </div>
+            )}
 
             {/* Popular Assistants Section */}
             {isOpen && popularAssistants.length > 0 && (
