@@ -78,7 +78,7 @@ const ExploreAssistants = () => {
             <p className="text-xs text-gray-400">{filteredAssistants.length} asistentes encontrados</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {filteredAssistants.map(assistant => (
               <AssistantCard 
                 key={assistant.id} 
@@ -99,7 +99,7 @@ const ExploreAssistants = () => {
           <p className="text-xs text-gray-400">{categoryAssistants.length} asistentes en esta categoría</p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {categoryAssistants.map(assistant => (
             <AssistantCard 
               key={assistant.id} 

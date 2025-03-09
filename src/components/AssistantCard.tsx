@@ -27,7 +27,7 @@ const AssistantCard = ({ assistant, onClick, className }: AssistantCardProps) =>
     <div 
       onClick={handleClick}
       className={cn(
-        "bg-chatgpt-secondary rounded-lg p-4 border border-white/10 hover:border-white/20 transition-all cursor-pointer group",
+        "bg-[#333333] rounded-xl p-4 border border-white/10 hover:border-white/20 transition-all cursor-pointer group shadow-sm hover:shadow-md",
         className
       )}
     >
@@ -47,7 +47,7 @@ const AssistantCard = ({ assistant, onClick, className }: AssistantCardProps) =>
             <p className="text-xs text-gray-500 mt-1">By {assistant.author}</p>
           )}
           <div className="mt-2 flex items-center gap-2">
-            <span className="inline-block px-2 py-1 text-xs bg-chatgpt-main rounded-full text-gray-300">
+            <span className="inline-block px-2 py-1 text-xs bg-[#222222] rounded-full text-gray-300">
               {assistant.category}
             </span>
             {assistant.chat_count !== undefined && assistant.chat_count > 0 && (
