@@ -55,9 +55,10 @@ const Index = () => {
         const isPinned = pinnedAssistants.includes(foundAssistant.id);
         setCurrentAssistant({ ...foundAssistant, isPinned });
         
+        // Clear previous messages and add welcome message with the assistant's description
         setMessages([{
           role: 'assistant',
-          content: `Hola, soy ${foundAssistant.name}. ${foundAssistant.description} ¿En qué puedo ayudarte hoy?`
+          content: `Hola, soy ${foundAssistant.name}. ${foundAssistant.description}`
         }]);
         
         toast({
@@ -204,6 +205,9 @@ const Index = () => {
                   </div>
                   <h1 className="text-4xl font-semibold mb-2">{currentAssistant.name}</h1>
                   <p className="text-gray-400 max-w-lg">{currentAssistant.description}</p>
+                  {currentAssistant.author && (
+                    <p className="text-sm text-gray-500 mt-2">Por {currentAssistant.author}</p>
+                  )}
                 </div>
               )}
               <div>
@@ -214,6 +218,16 @@ const Index = () => {
             </div>
           ) : (
             <>
+              <div className="w-full flex flex-col items-center justify-center mb-8 pt-4">
+                {currentAssistant && (
+                  <div className="text-center mb-4">
+                    <h1 className="text-3xl font-semibold mb-2">{currentAssistant.name}</h1>
+                    {currentAssistant.author && (
+                      <p className="text-sm text-gray-500">Por {currentAssistant.author}</p>
+                    )}
+                  </div>
+                )}
+              </div>
               <MessageList 
                 messages={messages} 
                 assistantId={currentAssistant?.id}
@@ -222,7 +236,7 @@ const Index = () => {
                 <ChatInput onSend={handleSendMessage} isLoading={isLoading} />
               </div>
               <div className="text-xs text-center text-gray-500 py-2">
-                Nexus AI puede cometer errores. Verifica la información importante.
+                ChatGPT puede cometer errores. Verifica la información importante.
               </div>
             </>
           )}
