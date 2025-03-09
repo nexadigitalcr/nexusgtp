@@ -8,7 +8,7 @@ interface ChatHeaderProps {
 const ChatHeader = ({ isSidebarOpen = true }: ChatHeaderProps) => {
   return (
     <div className="flex items-center gap-2">
-      <span className={`font-semibold ${!isSidebarOpen ? 'ml-24' : ''}`}>ChatGPT</span>
+      <span className={`font-semibold ${!isSidebarOpen ? 'ml-24' : ''}`}>Nexus AI</span>
       <ChevronDown className="h-4 w-4" />
     </div>
   );

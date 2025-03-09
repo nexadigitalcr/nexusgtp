@@ -81,7 +81,7 @@ const Sidebar = ({ isOpen, onToggle, onApiKeyChange }: SidebarProps) => {
                 <div className="h-6 w-6 flex items-center justify-center">
                   <Globe className="h-4 w-4" />
                 </div>
-                <span className="text-sm">ChatGPT</span>
+                <span className="text-sm">Nexus AI</span>
               </div>
               <div className="group flex h-10 items-center gap-2.5 rounded-lg px-2 hover:bg-token-sidebar-surface-secondary cursor-pointer">
                 <div className="h-6 w-6 flex items-center justify-center">
