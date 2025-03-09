@@ -3,6 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Assistant } from '@/data/assistants';
 import { cn } from '@/lib/utils';
+import { Lock } from 'lucide-react';
 
 interface AssistantCardProps {
   assistant: Assistant;
@@ -35,15 +36,25 @@ const AssistantCard = ({ assistant, onClick, className }: AssistantCardProps) =>
           <img src={assistant.avatar} alt={assistant.name} className="w-full h-full object-cover" />
         </div>
         <div className="flex flex-col">
-          <h3 className="font-medium group-hover:text-blue-400 transition-colors">{assistant.name}</h3>
+          <div className="flex items-center gap-2">
+            <h3 className="font-medium group-hover:text-blue-400 transition-colors">{assistant.name}</h3>
+            {assistant.visibility === "private" && (
+              <Lock className="h-3 w-3 text-gray-400" />
+            )}
+          </div>
           <p className="text-xs text-gray-400 line-clamp-2">{assistant.description}</p>
           {assistant.author && (
             <p className="text-xs text-gray-500 mt-1">By {assistant.author}</p>
           )}
-          <div className="mt-2">
+          <div className="mt-2 flex items-center gap-2">
             <span className="inline-block px-2 py-1 text-xs bg-chatgpt-main rounded-full text-gray-300">
               {assistant.category}
             </span>
+            {assistant.chat_count !== undefined && assistant.chat_count > 0 && (
+              <span className="text-xs text-gray-400">
+                {assistant.chat_count} {assistant.chat_count === 1 ? 'chat' : 'chats'}
+              </span>
+            )}
           </div>
         </div>
       </div>

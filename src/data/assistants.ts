@@ -6,6 +6,8 @@ export interface Assistant {
   avatar: string;
   category: "Featured" | "Trending" | "Specialized";
   author?: string;
+  visibility?: "public" | "private";
+  chat_count?: number;
 }
 
 export const assistants: Assistant[] = [
@@ -43,6 +45,52 @@ export const assistants: Assistant[] = [
     description: "Guía naturalista multilingüe para explorar la biodiversidad de Costa Rica.",
     avatar: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=100&h=100",
     category: "Trending"
+  },
+  // Adding new assistants
+  {
+    id: "kaleb-synthflow-001",
+    name: "Kaleb Synthflow Expert Nexus AI 5.0",
+    description: "Asistente experto en Synthflow que guía paso a paso en la creación y optimización de asistentes de voz. Proporciona prompts personalizados, resuelve problemas comunes y ayuda con integraciones avanzadas.",
+    avatar: "https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?auto=format&fit=crop&w=100&h=100",
+    category: "Specialized",
+    visibility: "public",
+    chat_count: 0
+  },
+  {
+    id: "theo-huggingface-002",
+    name: "Theo Hugging Face Expert Nexus AI 5.0",
+    description: "Asistente experto en Hugging Face que guía paso a paso en el uso de modelos, APIs y creación de aplicaciones. Ayuda a integrar modelos en plataformas externas y resuelve problemas técnicos de manera eficiente.",
+    avatar: "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&w=100&h=100",
+    category: "Trending",
+    visibility: "public",
+    chat_count: 0
+  },
+  {
+    id: "eliliot-glif-003",
+    name: "Eliliot Glif APP Expert",
+    description: "Asistente experto en Glif que guía paso a paso en la creación de aplicaciones, resuelve problemas, ofrece plantillas personalizadas y optimiza proyectos con soluciones avanzadas.",
+    avatar: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=100&h=100",
+    category: "Specialized",
+    visibility: "public",
+    chat_count: 1
+  },
+  {
+    id: "bolt-new-004",
+    name: "Bolt New Expert",
+    description: "Asistente experto en Bolt.new que guía paso a paso en la creación de aplicaciones web, generando prompts personalizados, integraciones avanzadas y soluciones dinámicas sin omitir detalles.",
+    avatar: "https://images.unsplash.com/photo-1550645612-83f5d594b671?auto=format&fit=crop&w=100&h=100",
+    category: "Featured",
+    visibility: "public",
+    chat_count: 25
+  },
+  {
+    id: "professor-sloth-005",
+    name: "Professor Sloth",
+    description: "Crea contenido visual y textual sobre turismo en Costa Rica con el Professor Sloth, un embajador amigable que inspira, educa y conecta a los viajeros.",
+    avatar: "https://images.unsplash.com/photo-1484557985045-edf25e08da73?auto=format&fit=crop&w=100&h=100",
+    category: "Featured",
+    visibility: "private",
+    chat_count: 0
   }
 ];
 
