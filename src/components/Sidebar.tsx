@@ -4,14 +4,16 @@ import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { assistants } from "@/data/assistants";
 
 interface SidebarProps {
   isOpen: boolean;
   onToggle: () => void;
   onApiKeyChange: (apiKey: string) => void;
+  currentAssistantId?: string;
 }
 
-const Sidebar = ({ isOpen, onToggle, onApiKeyChange }: SidebarProps) => {
+const Sidebar = ({ isOpen, onToggle, onApiKeyChange, currentAssistantId }: SidebarProps) => {
   const [apiKey, setApiKey] = useState("");
   const timeframes = [
     { title: "Yesterday", items: ["Using Tailwind CSS Guide"] },
@@ -41,6 +43,11 @@ const Sidebar = ({ isOpen, onToggle, onApiKeyChange }: SidebarProps) => {
     setApiKey(newApiKey);
     onApiKeyChange(newApiKey);
   };
+
+  // Filter assistants to show some popular ones in the sidebar
+  const popularAssistants = assistants.filter(a => a.chat_count !== undefined && a.chat_count > 0)
+    .sort((a, b) => (b.chat_count || 0) - (a.chat_count || 0))
+    .slice(0, 5);
 
   return (
     <div className={cn(
@@ -78,19 +85,50 @@ const Sidebar = ({ isOpen, onToggle, onApiKeyChange }: SidebarProps) => {
 
           <div className="bg-token-sidebar-surface-primary pt-0">
             <div className="flex flex-col gap-2 px-2 py-2">
-              <div className="group flex h-10 items-center gap-2.5 rounded-lg px-2 hover:bg-token-sidebar-surface-secondary cursor-pointer">
+              <Link 
+                to="/" 
+                className={cn(
+                  "group flex h-10 items-center gap-2.5 rounded-lg px-2 hover:bg-token-sidebar-surface-secondary cursor-pointer",
+                  !currentAssistantId && "bg-chatgpt-hover"
+                )}
+              >
                 <div className="h-6 w-6 flex items-center justify-center">
                   <Globe className="h-4 w-4" />
                 </div>
                 <span className="text-sm">Nexus AI</span>
-              </div>
-              <Link to="/explore-assistants" className="group flex h-10 items-center gap-2.5 rounded-lg px-2 hover:bg-token-sidebar-surface-secondary cursor-pointer">
+              </Link>
+              <Link 
+                to="/explore-assistants" 
+                className="group flex h-10 items-center gap-2.5 rounded-lg px-2 hover:bg-token-sidebar-surface-secondary cursor-pointer"
+              >
                 <div className="h-6 w-6 flex items-center justify-center">
                   <Globe className="h-4 w-4" />
                 </div>
                 <span className="text-sm">Explorar Asistentes</span>
               </Link>
             </div>
+
+            {/* Popular Assistants Section */}
+            {isOpen && popularAssistants.length > 0 && (
+              <div className="mt-4 flex flex-col gap-2">
+                <div className="px-3 py-2 text-xs text-gray-500">Asistentes Populares</div>
+                {popularAssistants.map((assistant) => (
+                  <Link
+                    key={assistant.id}
+                    to={`/?assistant=${assistant.id}`}
+                    className={cn(
+                      "flex items-center gap-2 px-3 py-2 hover:bg-token-sidebar-surface-secondary rounded-md cursor-pointer",
+                      currentAssistantId === assistant.id && "bg-chatgpt-hover"
+                    )}
+                  >
+                    <div className="w-6 h-6 rounded-full bg-gray-700 overflow-hidden">
+                      <img src={assistant.avatar} alt={assistant.name} className="w-full h-full object-cover" />
+                    </div>
+                    <span className="text-sm truncate">{assistant.name}</span>
+                  </Link>
+                ))}
+              </div>
+            )}
 
             <div className="mt-4 flex flex-col gap-4">
               {timeframes.map((timeframe) => (

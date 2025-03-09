@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
@@ -29,7 +28,6 @@ const Index = () => {
   const [currentAssistant, setCurrentAssistant] = useState<typeof assistants[0] | null>(null);
   const { toast } = useToast();
 
-  // State for UI components
   const [isSettingsMenuOpen, setIsSettingsMenuOpen] = useState(false);
   const [isSettingsWindowOpen, setIsSettingsWindowOpen] = useState(false);
   const [isMyGPTsWindowOpen, setIsMyGPTsWindowOpen] = useState(false);
@@ -41,13 +39,11 @@ const Index = () => {
       if (foundAssistant) {
         setCurrentAssistant(foundAssistant);
         
-        // Add a welcome message from the assistant
         setMessages([{
           role: 'assistant',
           content: `Hola, soy ${foundAssistant.name}. ${foundAssistant.description} ¿En qué puedo ayudarte hoy?`
         }]);
         
-        // Show a toast to confirm selection
         toast({
           title: `${foundAssistant.name} seleccionado`,
           description: "Ahora estás chateando con un asistente especializado.",
@@ -76,7 +72,6 @@ const Index = () => {
       
       setMessages(newMessages);
 
-      // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 1000));
 
       const assistantName = currentAssistant ? currentAssistant.name : "Nexus AI";
@@ -120,6 +115,7 @@ const Index = () => {
         isOpen={isSidebarOpen} 
         onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
         onApiKeyChange={() => {}} // Empty function since we don't need API key anymore
+        currentAssistantId={currentAssistant?.id}
       />
       
       <main className={`flex-1 transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-0'}`}>
@@ -127,7 +123,7 @@ const Index = () => {
           <div className="flex h-[60px] items-center justify-between px-4">
             <ChatHeader 
               isSidebarOpen={isSidebarOpen} 
-              currentAssistant={currentAssistant ? currentAssistant.name : undefined}
+              currentAssistant={currentAssistant}
             />
             <UserButton onClick={handleToggleSettingsMenu} />
           </div>
@@ -136,15 +132,27 @@ const Index = () => {
         <div className={`flex h-full flex-col ${messages.length === 0 ? 'items-center justify-center' : 'justify-between'} pt-[60px] pb-4`}>
           {messages.length === 0 ? (
             <div className="w-full max-w-3xl px-4 space-y-4">
+              {currentAssistant && (
+                <div className="flex flex-col items-center mb-8 text-center">
+                  <div className="w-24 h-24 rounded-full bg-gray-700 overflow-hidden mb-4">
+                    <img src={currentAssistant.avatar} alt={currentAssistant.name} className="w-full h-full object-cover" />
+                  </div>
+                  <h1 className="text-4xl font-semibold mb-2">{currentAssistant.name}</h1>
+                  <p className="text-gray-400 max-w-lg">{currentAssistant.description}</p>
+                </div>
+              )}
               <div>
-                <h1 className="mb-8 text-4xl font-semibold text-center">¿En qué puedo ayudarte?</h1>
+                <h1 className={`mb-8 text-4xl font-semibold text-center ${currentAssistant ? 'sr-only' : ''}`}>¿En qué puedo ayudarte?</h1>
                 <ChatInput onSend={handleSendMessage} isLoading={isLoading} />
               </div>
               <ActionButtons />
             </div>
           ) : (
             <>
-              <MessageList messages={messages} />
+              <MessageList 
+                messages={messages} 
+                assistantId={currentAssistant?.id}
+              />
               <div className="w-full max-w-3xl mx-auto px-4 py-2">
                 <ChatInput onSend={handleSendMessage} isLoading={isLoading} />
               </div>
@@ -156,7 +164,6 @@ const Index = () => {
         </div>
       </main>
 
-      {/* Settings Menu */}
       <SettingsMenu 
         isOpen={isSettingsMenuOpen}
         onClose={() => setIsSettingsMenuOpen(false)}
@@ -165,19 +172,16 @@ const Index = () => {
         onOpenCustomize={handleOpenCustomize}
       />
 
-      {/* Settings Window */}
       <SettingsWindow 
         isOpen={isSettingsWindowOpen}
         onClose={() => setIsSettingsWindowOpen(false)}
       />
 
-      {/* My GPTs Window */}
       <MyGPTsWindow 
         isOpen={isMyGPTsWindowOpen}
         onClose={() => setIsMyGPTsWindowOpen(false)}
       />
 
-      {/* Customize Window */}
       <CustomizeWindow 
         isOpen={isCustomizeWindowOpen}
         onClose={() => setIsCustomizeWindowOpen(false)}
