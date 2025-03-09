@@ -3,6 +3,7 @@ import { Menu, Globe, ChevronDown, Key } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -83,12 +84,12 @@ const Sidebar = ({ isOpen, onToggle, onApiKeyChange }: SidebarProps) => {
                 </div>
                 <span className="text-sm">Nexus AI</span>
               </div>
-              <div className="group flex h-10 items-center gap-2.5 rounded-lg px-2 hover:bg-token-sidebar-surface-secondary cursor-pointer">
+              <Link to="/explore-assistants" className="group flex h-10 items-center gap-2.5 rounded-lg px-2 hover:bg-token-sidebar-surface-secondary cursor-pointer">
                 <div className="h-6 w-6 flex items-center justify-center">
                   <Globe className="h-4 w-4" />
                 </div>
                 <span className="text-sm">Explorar Asistentes</span>
-              </div>
+              </Link>
             </div>
 
             <div className="mt-4 flex flex-col gap-4">
