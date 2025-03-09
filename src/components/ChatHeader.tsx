@@ -1,15 +1,22 @@
 
-import { ChevronDown } from "lucide-react";
+import { Menu } from 'lucide-react';
 
 interface ChatHeaderProps {
-  isSidebarOpen?: boolean;
+  isSidebarOpen: boolean;
+  currentAssistant?: string;
 }
 
-const ChatHeader = ({ isSidebarOpen = true }: ChatHeaderProps) => {
+const ChatHeader = ({ isSidebarOpen, currentAssistant }: ChatHeaderProps) => {
   return (
-    <div className="flex items-center gap-2">
-      <span className={`font-semibold ${!isSidebarOpen ? 'ml-24' : ''}`}>Nexus AI</span>
-      <ChevronDown className="h-4 w-4" />
+    <div className="flex items-center">
+      {!isSidebarOpen && (
+        <button className="h-9 w-9 rounded-md p-2 mr-3 hover:bg-chatgpt-hover">
+          <Menu className="h-5 w-5" />
+        </button>
+      )}
+      <span className="font-semibold text-lg">
+        {currentAssistant || "Nexus AI"}
+      </span>
     </div>
   );
 };
