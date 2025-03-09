@@ -1,7 +1,7 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Filter, ChevronDown, ArrowLeft } from 'lucide-react';
+import { Search, Filter, ChevronDown, ArrowLeft, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { assistants, getAssistantCategories, type Assistant } from '@/data/assistants';
 import AssistantCard from '@/components/AssistantCard';
@@ -11,6 +11,8 @@ const ExploreAssistants = () => {
   const [filteredAssistants, setFilteredAssistants] = useState<Assistant[]>(assistants);
   const [categories, setCategories] = useState<Record<string, Assistant[]>>({});
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Get categories with their assistants
@@ -40,11 +42,38 @@ const ExploreAssistants = () => {
     setFilteredAssistants(result);
   }, [searchQuery, selectedCategory]);
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowCategoryDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   const handleAssistantSelect = (assistant: Assistant) => {
     console.log(`Selected assistant: ${assistant.name}`);
     // Here we would typically update some context or state and redirect
     // For now, we'll just navigate to the main page with the assistant as a parameter
     window.location.href = `/?assistant=${assistant.id}`;
+  };
+
+  const toggleCategoryDropdown = () => {
+    setShowCategoryDropdown(prev => !prev);
+  };
+
+  const selectCategory = (category: string) => {
+    setSelectedCategory(category === selectedCategory ? null : category);
+    setShowCategoryDropdown(false);
+  };
+
+  const clearSearch = () => {
+    setSearchQuery('');
   };
 
   const renderAssistantsByCategory = () => {
@@ -160,24 +189,53 @@ const ExploreAssistants = () => {
               <input
                 type="text"
                 placeholder="Buscar Asistentes por nombre, descripción o categoría"
-                className="w-full pl-10 py-2 bg-chatgpt-secondary/50 rounded-md border border-white/10 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="w-full pl-10 py-2 bg-chatgpt-secondary/50 rounded-xl border border-white/10 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
+              {searchQuery && (
+                <button 
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-white"
+                  onClick={clearSearch}
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
             </div>
             
-            <div className="relative">
+            <div className="relative" ref={dropdownRef}>
               <Button 
                 variant="outline" 
-                className="flex items-center gap-2 bg-transparent border-white/10 hover:bg-chatgpt-secondary/50"
-                onClick={() => setSelectedCategory(null)}
+                className="flex items-center gap-2 bg-transparent border-white/10 hover:bg-chatgpt-secondary/50 rounded-xl"
+                onClick={toggleCategoryDropdown}
               >
                 <Filter className="h-4 w-4" />
                 <span>Categorías</span>
                 <ChevronDown className="h-4 w-4" />
               </Button>
               
-              {/* We could add a dropdown menu here for categories */}
+              {showCategoryDropdown && (
+                <div className="absolute right-0 mt-2 w-56 bg-chatgpt-secondary rounded-xl border border-white/10 shadow-lg z-20 animate-fadeIn">
+                  <div className="py-1 max-h-64 overflow-y-auto">
+                    <button
+                      className={`block w-full text-left px-4 py-2 text-sm hover:bg-chatgpt-hover transition-colors ${!selectedCategory ? 'text-blue-400' : 'text-white'}`}
+                      onClick={() => selectCategory(selectedCategory || '')}
+                    >
+                      Todas las categorías
+                    </button>
+                    
+                    {Object.keys(categories).map((category) => (
+                      <button
+                        key={category}
+                        className={`block w-full text-left px-4 py-2 text-sm hover:bg-chatgpt-hover transition-colors ${selectedCategory === category ? 'text-blue-400' : 'text-white'}`}
+                        onClick={() => selectCategory(category)}
+                      >
+                        {category} ({categories[category].length})
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

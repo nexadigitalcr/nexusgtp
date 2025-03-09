@@ -27,7 +27,7 @@ const AssistantCard = ({ assistant, onClick, className }: AssistantCardProps) =>
     <div 
       onClick={handleClick}
       className={cn(
-        "bg-[#333333] rounded-xl p-4 border border-white/10 hover:border-white/20 transition-all duration-300 cursor-pointer group shadow-sm hover:shadow-md hover:translate-y-[-4px] hover:bg-[#383838]",
+        "bg-[#2A2A2A] rounded-xl p-4 border border-white/10 hover:border-white/20 transition-all duration-300 cursor-pointer group shadow-sm hover:shadow-md hover:translate-y-[-4px] hover:bg-[#383838]",
         className
       )}
     >
