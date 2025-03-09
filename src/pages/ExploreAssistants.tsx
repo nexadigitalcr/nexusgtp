@@ -56,13 +56,17 @@ const ExploreAssistants = () => {
             <h2 className="text-lg font-medium">{selectedCategory}</h2>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredAssistants.map(assistant => (
-              <AssistantCard 
-                key={assistant.id} 
-                assistant={assistant} 
-                onClick={handleAssistantSelect}
-              />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {filteredAssistants.map((assistant, index) => (
+              <div key={assistant.id} 
+                className="animate-fadeIn" 
+                style={{ animationDelay: `${index * 50}ms` }}
+              >
+                <AssistantCard 
+                  assistant={assistant} 
+                  onClick={handleAssistantSelect}
+                />
+              </div>
             ))}
           </div>
         </div>
@@ -79,12 +83,17 @@ const ExploreAssistants = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {filteredAssistants.map(assistant => (
-              <AssistantCard 
-                key={assistant.id} 
-                assistant={assistant} 
-                onClick={handleAssistantSelect}
-              />
+            {filteredAssistants.map((assistant, index) => (
+              <div key={assistant.id} 
+                className="animate-fadeIn" 
+                style={{ animationDelay: `${index * 50}ms` }}
+              >
+                <AssistantCard 
+                  key={assistant.id} 
+                  assistant={assistant} 
+                  onClick={handleAssistantSelect}
+                />
+              </div>
             ))}
           </div>
         </div>
@@ -100,12 +109,16 @@ const ExploreAssistants = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {categoryAssistants.map(assistant => (
-            <AssistantCard 
-              key={assistant.id} 
-              assistant={assistant} 
-              onClick={handleAssistantSelect}
-            />
+          {categoryAssistants.map((assistant, index) => (
+            <div key={assistant.id} 
+              className="animate-fadeIn" 
+              style={{ animationDelay: `${index * 50}ms` }}
+            >
+              <AssistantCard
+                assistant={assistant} 
+                onClick={handleAssistantSelect}
+              />
+            </div>
           ))}
         </div>
         
@@ -113,7 +126,7 @@ const ExploreAssistants = () => {
           <div className="mt-2 text-center">
             <button 
               onClick={() => setSelectedCategory(category)}
-              className="text-sm text-gray-400 hover:text-white"
+              className="text-sm text-gray-400 hover:text-white transition-colors duration-300"
             >
               Ver más en {category}
             </button>
