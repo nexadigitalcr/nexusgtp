@@ -48,7 +48,7 @@ const ChatHeader = ({
       )}
       <div className="flex items-center gap-2">
         {currentAssistant && (
-          <div className="w-6 h-6 rounded-full bg-gray-700 overflow-hidden mr-1">
+          <div className="w-7 h-7 rounded-full bg-gray-700 overflow-hidden mr-1 border border-white/10">
             <img src={currentAssistant.avatar} alt={currentAssistant.name} className="w-full h-full object-cover" />
           </div>
         )}
@@ -64,34 +64,34 @@ const ChatHeader = ({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="ml-1 p-1 h-auto">
-                  <ChevronDown className="h-4 w-4" />
+                  <ChevronDown className="h-4 w-4 text-gray-400 hover:text-white transition-colors" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56 bg-chatgpt-secondary border-chatgpt-border">
-                <DropdownMenuItem onClick={handleNewChat} className="cursor-pointer">
-                  <MessageSquarePlus className="mr-2 h-4 w-4" />
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuItem onClick={handleNewChat} className="flex items-center gap-2">
+                  <MessageSquarePlus className="h-4 w-4 text-gray-300" />
                   <span>Nuevo Chat</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setIsAboutModalOpen(true)} className="cursor-pointer">
-                  <Info className="mr-2 h-4 w-4" />
+                <DropdownMenuItem onClick={() => setIsAboutModalOpen(true)} className="flex items-center gap-2">
+                  <Info className="h-4 w-4 text-gray-300" />
                   <span>Acerca de</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleTogglePin} className="cursor-pointer">
+                <DropdownMenuItem onClick={handleTogglePin} className="flex items-center gap-2">
                   {currentAssistant.isPinned ? (
                     <>
-                      <PinOff className="mr-2 h-4 w-4" />
+                      <PinOff className="h-4 w-4 text-gray-300" />
                       <span>Desanclar del Sidebar</span>
                     </>
                   ) : (
                     <>
-                      <Pin className="mr-2 h-4 w-4" />
+                      <Pin className="h-4 w-4 text-gray-300" />
                       <span>Anclar al Sidebar</span>
                     </>
                   )}
                 </DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer">
-                  <MessageSquare className="mr-2 h-4 w-4" />
+                <DropdownMenuItem className="flex items-center gap-2">
+                  <MessageSquare className="h-4 w-4 text-gray-300" />
                   <span>Enviar Comentarios</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
