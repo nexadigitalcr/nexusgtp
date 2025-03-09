@@ -1,3 +1,4 @@
+
 import { Menu, Globe, ChevronDown, Key } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
@@ -86,7 +87,7 @@ const Sidebar = ({ isOpen, onToggle, onApiKeyChange }: SidebarProps) => {
                 <div className="h-6 w-6 flex items-center justify-center">
                   <Globe className="h-4 w-4" />
                 </div>
-                <span className="text-sm">Explore GPTs</span>
+                <span className="text-sm">Explorar Asistentes</span>
               </div>
             </div>
 
