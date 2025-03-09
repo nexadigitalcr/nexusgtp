@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
@@ -33,6 +34,7 @@ const Index = () => {
   const [isMyGPTsWindowOpen, setIsMyGPTsWindowOpen] = useState(false);
   const [isCustomizeWindowOpen, setIsCustomizeWindowOpen] = useState(false);
   const [pinnedAssistants, setPinnedAssistants] = useState<string[]>([]);
+  const [hasUserSentMessage, setHasUserSentMessage] = useState(false);
 
   useEffect(() => {
     // Try to load pinned assistants from localStorage
@@ -54,11 +56,11 @@ const Index = () => {
         const isPinned = pinnedAssistants.includes(foundAssistant.id);
         setCurrentAssistant({ ...foundAssistant, isPinned });
         
-        // Clear previous messages and add welcome message with the assistant's description
-        setMessages([{
-          role: 'assistant',
-          content: `Hola, soy ${foundAssistant.name}. ${foundAssistant.description}`
-        }]);
+        // Reset user sent message state when changing assistants
+        setHasUserSentMessage(false);
+        
+        // Clear previous messages - we'll show the welcome message in the UI differently
+        setMessages([]);
         
         toast({
           title: `${foundAssistant.name} seleccionado`,
@@ -79,6 +81,7 @@ const Index = () => {
     }
 
     setIsLoading(true);
+    setHasUserSentMessage(true);
 
     try {
       const newMessages = [
@@ -111,10 +114,8 @@ const Index = () => {
 
   const handleNewChat = () => {
     // Start a new chat with the current assistant
-    setMessages([{
-      role: 'assistant',
-      content: `Hola, soy ${currentAssistant?.name}. ${currentAssistant?.description} ¿En qué puedo ayudarte hoy?`
-    }]);
+    setMessages([]);
+    setHasUserSentMessage(false);
     
     toast({
       title: "Nuevo chat iniciado",
@@ -194,38 +195,28 @@ const Index = () => {
           </div>
         </div>
         
-        <div className={`flex h-full flex-col ${messages.length === 0 ? 'items-center justify-center' : 'justify-between'} pt-[60px] pb-4`}>
-          {messages.length === 0 ? (
+        <div className={`flex h-full flex-col ${messages.length === 0 && !hasUserSentMessage ? 'items-center justify-center' : 'justify-between'} pt-[60px] pb-4`}>
+          {messages.length === 0 && !hasUserSentMessage ? (
             <div className="w-full max-w-3xl px-4 space-y-4 flex flex-col items-center">
               {currentAssistant && (
                 <div className="flex flex-col items-center my-8 text-center">
-                  <div className="w-20 h-20 rounded-full bg-gray-700 overflow-hidden mb-6">
+                  <div className="w-20 h-20 rounded-full bg-gray-700 overflow-hidden mb-6 border border-white/10">
                     <img src={currentAssistant.avatar} alt={currentAssistant.name} className="w-full h-full object-cover" />
                   </div>
                   <h1 className="text-4xl font-bold mb-2">{currentAssistant.name}</h1>
                   {currentAssistant.author && (
                     <p className="text-gray-400 text-sm mb-4">Por {currentAssistant.author}</p>
                   )}
-                  <p className="text-gray-300 max-w-xl text-center">{currentAssistant.description}</p>
+                  <p className="text-gray-300 max-w-xl text-center mb-8">{currentAssistant.description}</p>
                 </div>
               )}
-              <div className="w-full max-w-xl mx-auto mt-6">
+              <div className="w-full max-w-xl mx-auto">
                 <ChatInput onSend={handleSendMessage} isLoading={isLoading} />
               </div>
               <ActionButtons />
             </div>
           ) : (
             <>
-              <div className="w-full flex flex-col items-center justify-center mb-8 pt-4">
-                {currentAssistant && (
-                  <div className="text-center mb-4">
-                    <h1 className="text-3xl font-semibold mb-2">{currentAssistant.name}</h1>
-                    {currentAssistant.author && (
-                      <p className="text-sm text-gray-500">Por {currentAssistant.author}</p>
-                    )}
-                  </div>
-                )}
-              </div>
               <MessageList 
                 messages={messages} 
                 assistantId={currentAssistant?.id}
